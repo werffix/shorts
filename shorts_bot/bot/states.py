@@ -6,6 +6,10 @@ class JobSettings(StatesGroup):
     choosing_format = State()
 
 
+class AiStates(StatesGroup):
+    chatting = State()
+
+
 class AdminStates(StatesGroup):
     waiting_user = State()
     waiting_banner = State()

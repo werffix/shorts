@@ -13,7 +13,7 @@ services:
 
   worker:
     build: .
-    command: celery -A shorts_bot.worker.celery_app worker --loglevel=INFO
+    command: celery -A shorts_bot.worker.celery_app worker --loglevel=INFO --concurrency=1 --prefetch-multiplier=1
     env_file: .env
     depends_on:
       redis:

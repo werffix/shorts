@@ -38,6 +38,38 @@ async def get_job(job_id: str) -> VideoJob | None:
         return await session.scalar(select(VideoJob).where(VideoJob.id == job_id))
 
 
+async def count_active_jobs(chat_id: int) -> int:
+    async with SessionLocal() as session:
+        value = await session.scalar(
+            select(func.count(VideoJob.id)).where(
+                VideoJob.chat_id == chat_id,
+                VideoJob.status.in_(["QUEUED", "DOWNLOADING", "TRANSCRIBING", "ANALYZING", "RENDERING", "DELIVERING"]),
+            )
+        )
+        return int(value or 0)
+
+
+async def get_active_media_sources() -> set[str]:
+    async with SessionLocal() as session:
+        rows = await session.scalars(
+            select(VideoJob.source).where(
+                VideoJob.source_type == "file",
+                VideoJob.status.in_(["QUEUED", "DOWNLOADING", "TRANSCRIBING", "ANALYZING", "RENDERING", "DELIVERING"]),
+            )
+        )
+        return set(rows.all())
+
+
+async def get_active_job_ids() -> set[str]:
+    async with SessionLocal() as session:
+        rows = await session.scalars(
+            select(VideoJob.id).where(
+                VideoJob.status.in_(["QUEUED", "DOWNLOADING", "TRANSCRIBING", "ANALYZING", "RENDERING", "DELIVERING"]),
+            )
+        )
+        return set(rows.all())
+
+
 async def is_allowed(telegram_id: int, admin_id: int) -> bool:
     if telegram_id == admin_id:
         return True

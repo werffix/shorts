@@ -9,4 +9,11 @@ celery_app = Celery(
     backend=settings.redis_url,
     include=["shorts_bot.worker.tasks"],
 )
-celery_app.conf.update(task_track_started=True, task_serializer="json", result_serializer="json", accept_content=["json"])
+celery_app.conf.update(
+    task_track_started=True,
+    task_serializer="json",
+    result_serializer="json",
+    accept_content=["json"],
+    worker_prefetch_multiplier=1,
+    task_acks_late=True,
+)

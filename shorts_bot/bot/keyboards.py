@@ -24,4 +24,12 @@ def admin_keyboard() -> InlineKeyboardMarkup:
     return InlineKeyboardMarkup(inline_keyboard=[
         [InlineKeyboardButton(text="👥 Пользователи", callback_data="admin:users")],
         [InlineKeyboardButton(text="🖼 Баннер", callback_data="admin:banner")],
+        [InlineKeyboardButton(text="💾 Память", callback_data="admin:memory")],
+    ])
+
+
+def start_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="🧠 Спросить у ИИ", callback_data="ai:open")],
+        [InlineKeyboardButton(text="⚙️ Настройки", callback_data="settings:open")],
     ])
