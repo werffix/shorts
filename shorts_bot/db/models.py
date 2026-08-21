@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import DateTime, Integer, String, Text, func
+from sqlalchemy import BigInteger, DateTime, Integer, String, Text, func
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -12,7 +12,7 @@ class VideoJob(Base):
     __tablename__ = "video_jobs"
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
-    chat_id: Mapped[int] = mapped_column(Integer, index=True)
+    chat_id: Mapped[int] = mapped_column(BigInteger, index=True)
     source_type: Mapped[str] = mapped_column(String(8))
     source: Mapped[str] = mapped_column(Text)
     min_duration: Mapped[int] = mapped_column(Integer)
