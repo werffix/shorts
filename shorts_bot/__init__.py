@@ -1,0 +1,1 @@
+"""Shorts Creator Bot MVP."""
