@@ -64,6 +64,10 @@ async def _deliver(chat_id: int, outputs: list[str]) -> None:
     try:
         for path in outputs:
             from aiogram.types import FSInputFile
-            await bot.send_video(chat_id, FSInputFile(path), caption="Готовый ролик")
+            await bot.send_document(
+                chat_id,
+                FSInputFile(path),
+                caption="Готовый ролик",
+            )
     finally:
         await bot.session.close()
