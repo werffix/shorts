@@ -13,6 +13,7 @@ class Settings(BaseSettings):
     llm_api_key: str | None = None
     llm_base_url: str | None = None
     llm_model: str = "gpt-4o-mini"
+    llm_api_style: str = "chat_completions"
     whisper_model: str = "small"
     media_root: Path = Path("media")
     max_upload_bytes: int = 2 * 1024 * 1024 * 1024
