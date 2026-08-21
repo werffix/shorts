@@ -12,7 +12,8 @@ logger = logging.getLogger(__name__)
 FORMATS = {
     "9:16": (1080, 1920),
     "16:9": (1920, 1080),
-    "16:9_blur": (1920, 1080),
+    # Vertical Shorts canvas with the full source centered over a blurred background.
+    "16:9_blur": (1080, 1920),
     "1:1": (1080, 1080),
 }
 
