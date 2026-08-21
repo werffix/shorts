@@ -3,12 +3,12 @@ from pathlib import Path
 from shorts_bot.pipeline.models import Word
 
 
-def write_ass(words: list[Word], clip_start: float, clip_end: float, output: Path) -> None:
+def write_ass(words: list[Word], clip_start: float, clip_end: float, output: Path, width: int, height: int) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     header = """[Script Info]
 ScriptType: v4.00+
-PlayResX: 1080
-PlayResY: 1920
+PlayResX: {width}
+PlayResY: {height}
 
 [V4+ Styles]
 Format: Name,Fontname,Fontsize,PrimaryColour,SecondaryColour,OutlineColour,BackColour,Bold,Italic,Underline,StrikeOut,ScaleX,ScaleY,Spacing,Angle,BorderStyle,Outline,Shadow,Alignment,MarginL,MarginR,MarginV,Encoding
@@ -17,7 +17,7 @@ Style: Default,Arial,58,&H00FFFFFF,&H0000FFFF,&H00101010,&H80000000,1,0,0,0,100,
 [Events]
 Format: Layer,Start,End,Style,Name,MarginL,MarginR,MarginV,Effect,Text
 """
-    lines = [header]
+    lines = [header.format(width=width, height=height)]
     for word in words:
         if word.end < clip_start or word.start > clip_end:
             continue

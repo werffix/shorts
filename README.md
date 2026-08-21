@@ -13,6 +13,7 @@ Telegram-бот на Python, который принимает ссылку на
 - Поиск фрагментов LLM с ответом в строгом JSON-формате.
 - Рендер вертикального ролика 9:16 и одного стиля ASS-субтитров с помощью FFmpeg.
 - Хранение заданий и их статусов в PostgreSQL.
+- Whitelist пользователей и админка `/admin` с управлением доступом и баннером.
 
 Пока промежуточные и итоговые файлы хранятся в общей Docker-папке `./media`; MinIO включён в окружение для следующего этапа переноса артефактов в S3.
 
@@ -47,6 +48,7 @@ ffmpeg -version
 
 ```dotenv
 TELEGRAM_BOT_TOKEN=
+ADMIN_ID=123456789
 DATABASE_URL=postgresql+asyncpg://shorts:shorts@localhost:5432/shorts
 REDIS_URL=redis://localhost:6379/0
 
@@ -63,6 +65,14 @@ WHISPER_MODEL=small
 ```
 
 Не добавляйте `.env` и реальные ключи в Git.
+
+После обновления уже существующей базы примените миграцию:
+
+```bash
+docker compose exec -T postgres psql -U shorts -d shorts < migrations/002_part2.sql
+```
+
+`ADMIN_ID` должен быть числовым Telegram ID владельца бота. Администратор автоматически получает доступ, остальные пользователи добавляются через `/admin`.
 
 ### vibecode.moe
 

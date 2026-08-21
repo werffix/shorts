@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
 
     telegram_bot_token: str
+    admin_id: int
     redis_url: str = "redis://localhost:6379/0"
     database_url: str = "postgresql+asyncpg://shorts:shorts@localhost:5432/shorts"
     llm_api_key: str | None = None
@@ -17,6 +18,7 @@ class Settings(BaseSettings):
     whisper_model: str = "small"
     media_root: Path = Path("media")
     max_upload_bytes: int = 2 * 1024 * 1024 * 1024
+    access_contact_url: str = "https://t.me/q1team"
 
 
 @lru_cache

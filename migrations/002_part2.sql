@@ -1,0 +1,23 @@
+ALTER TABLE video_jobs ADD COLUMN IF NOT EXISTS video_format VARCHAR(16) NOT NULL DEFAULT '9:16';
+ALTER TABLE video_jobs ADD COLUMN IF NOT EXISTS progress_current INTEGER;
+ALTER TABLE video_jobs ADD COLUMN IF NOT EXISTS progress_total INTEGER;
+ALTER TABLE video_jobs ADD COLUMN IF NOT EXISTS status_message_id BIGINT;
+ALTER TABLE video_jobs ADD COLUMN IF NOT EXISTS status_chat_id BIGINT;
+ALTER TABLE video_jobs ALTER COLUMN chat_id TYPE BIGINT;
+
+CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    telegram_id BIGINT UNIQUE NOT NULL,
+    username VARCHAR(255),
+    added_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    added_by BIGINT NOT NULL,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
+CREATE TABLE IF NOT EXISTS banner_config (
+    id INTEGER PRIMARY KEY DEFAULT 1,
+    file_path TEXT,
+    enabled BOOLEAN NOT NULL DEFAULT FALSE,
+    uploaded_at TIMESTAMPTZ,
+    uploaded_by BIGINT
+);

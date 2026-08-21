@@ -9,3 +9,19 @@ def duration_keyboard() -> InlineKeyboardMarkup:
             [InlineKeyboardButton(text="60-90 секунд", callback_data="duration:60:90")],
         ]
     )
+
+
+def format_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="9:16 вертикальный", callback_data="format:9:16")],
+        [InlineKeyboardButton(text="16:9 горизонтальный", callback_data="format:16:9")],
+        [InlineKeyboardButton(text="16:9 с размытым фоном", callback_data="format:16:9_blur")],
+        [InlineKeyboardButton(text="1:1 квадрат", callback_data="format:1:1")],
+    ])
+
+
+def admin_keyboard() -> InlineKeyboardMarkup:
+    return InlineKeyboardMarkup(inline_keyboard=[
+        [InlineKeyboardButton(text="👥 Пользователи", callback_data="admin:users")],
+        [InlineKeyboardButton(text="🖼 Баннер", callback_data="admin:banner")],
+    ])
