@@ -3,11 +3,14 @@ import asyncio
 from collections.abc import AsyncIterator
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
+from sqlalchemy.pool import NullPool
 
 from shorts_bot.config import get_settings
 from shorts_bot.db.models import Base
 
-engine = create_async_engine(get_settings().database_url, pool_pre_ping=True)
+# Celery's synchronous task invokes small async DB operations in separate
+# event loops. A pooled asyncpg connection cannot be shared between them.
+engine = create_async_engine(get_settings().database_url, poolclass=NullPool)
 SessionLocal = async_sessionmaker(engine, expire_on_commit=False)
 
 
