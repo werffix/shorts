@@ -26,7 +26,7 @@ def render_short(video: Path, words: list[Word], segment: Segment, output: Path,
             "gblur=sigma=30,eq=brightness=-0.05[bg];"
             "[0:v]scale=1920:1080:force_original_aspect_ratio=decrease[fg];"
             "[bg][fg]overlay=(W-w)/2:(H-h)/2,setsar=1,"
-            f"ass='{subtitle_path}'"
+            f"ass='{subtitle_path}'[out]"
         )
     else:
         filter_graph = (
