@@ -58,10 +58,24 @@ S3_BUCKET=shorts
 LLM_API_KEY=
 LLM_BASE_URL=
 LLM_MODEL=
+LLM_API_STYLE=chat_completions
 WHISPER_MODEL=small
 ```
 
 Не добавляйте `.env` и реальные ключи в Git.
+
+### vibecode.moe
+
+У этого провайдера используется OpenAI Responses API, поэтому задайте в `.env`:
+
+```dotenv
+LLM_API_KEY=vk-...
+LLM_BASE_URL=https://vibecode.moe/v1
+LLM_MODEL=gpt-5.5
+LLM_API_STYLE=responses
+```
+
+Это отдельная конфигурация для бота; файл `~/.codex/config.toml` из скрипта относится только к Codex CLI и боту не нужен.
 
 ## Планируемая структура
 
