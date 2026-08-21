@@ -42,6 +42,18 @@ async def receive_url(message: Message, state: FSMContext) -> None:
     await accept_source(message, state, "url", URL_PATTERN.search(message.text or "").group(0))
 
 
+@router.message(AdminStates.waiting_banner, F.video)
+async def upload_banner(message: Message, state: FSMContext, bot: Bot) -> None:
+    if not is_admin(message.from_user.id):
+        return
+    path = get_settings().media_root / "banner.mp4"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    await bot.download(message.video, destination=path)
+    await save_banner(str(path), message.from_user.id)
+    await state.clear()
+    await message.answer("✅ Баннер сохранён и включён.", reply_markup=admin_keyboard())
+
+
 @router.message(F.video | F.document)
 async def receive_file(message: Message, state: FSMContext, bot: Bot) -> None:
     document = message.video or message.document
@@ -175,17 +187,6 @@ async def upload_banner_prompt(callback: CallbackQuery, state: FSMContext) -> No
         await state.set_state(AdminStates.waiting_banner)
         await callback.message.edit_text("Пришлите видео баннера.")
     await callback.answer()
-
-
-@router.message(AdminStates.waiting_banner, F.video)
-async def upload_banner(message: Message, state: FSMContext, bot: Bot) -> None:
-    if not is_admin(message.from_user.id): return
-    path = get_settings().media_root / "banner.mp4"
-    path.parent.mkdir(parents=True, exist_ok=True)
-    await bot.download(message.video, destination=path)
-    await save_banner(str(path), message.from_user.id)
-    await state.clear()
-    await message.answer("✅ Баннер сохранён и включён.", reply_markup=admin_keyboard())
 
 
 @router.callback_query(F.data == "admin:toggle_banner")

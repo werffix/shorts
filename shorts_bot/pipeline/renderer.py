@@ -44,7 +44,7 @@ def render_short(video: Path, words: list[Word], segment: Segment, output: Path,
         with_banner = output.with_suffix(".banner.mp4")
         subprocess.run([
             "ffmpeg", "-y", "-i", str(output), "-stream_loop", "-1", "-i", str(banner_path),
-            "-filter_complex", f"[1:v]scale={width}:-2,trim=duration={segment.end - segment.start},setpts=PTS-STARTPTS[b];[0:v][b]overlay=0:0:shortest=1[out]",
+            "-filter_complex", f"[1:v]scale={width}:-2,trim=duration={segment.end - segment.start},setpts=PTS-STARTPTS[b];[0:v][b]overlay=0:0:eof_action=repeat:shortest=1[out]",
             "-map", "[out]", "-map", "0:a?", "-c:v", "libx264", "-c:a", "copy", str(with_banner),
         ], check=True)
         with_banner.replace(output)
