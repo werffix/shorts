@@ -42,13 +42,17 @@ async def receive_url(message: Message, state: FSMContext) -> None:
     await accept_source(message, state, "url", URL_PATTERN.search(message.text or "").group(0))
 
 
-@router.message(AdminStates.waiting_banner, F.video)
+@router.message(AdminStates.waiting_banner, F.video | F.document)
 async def upload_banner(message: Message, state: FSMContext, bot: Bot) -> None:
     if not is_admin(message.from_user.id):
         return
+    media = message.video or message.document
+    if not media:
+        await message.answer("Пришлите видеофайл баннера.")
+        return
     path = get_settings().media_root / "banner.mp4"
     path.parent.mkdir(parents=True, exist_ok=True)
-    await bot.download(message.video, destination=path)
+    await bot.download(media, destination=path)
     await save_banner(str(path), message.from_user.id)
     await state.clear()
     await message.answer("✅ Баннер сохранён и включён.", reply_markup=admin_keyboard())
